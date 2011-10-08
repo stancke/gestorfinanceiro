@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+from gestao.models import Entrada, Saida
 
 
 def index(request):
@@ -17,3 +18,9 @@ def resultados(request, url):
         return render_to_response('resultados/resultados.html')
     else:
         return HttpResponseRedirect("/erro_autenticacao/")
+    
+
+def getAllSaidas(request):
+    saidas = Saida.objects.values('tipo_de_saida').distinct()
+    
+    return HttpResponse(saidas)
