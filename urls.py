@@ -12,6 +12,6 @@ urlpatterns = patterns('',
     (r'^resultados/(?P<url>\w+)/$', 'gestorfinanceiro.resultados.views.resultados'),
     (r'^saidas/$', 'gestorfinanceiro.resultados.views.getAllSaidas'),
     #(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^sistema/', include(admin.site.urls)),
     url(r'^dbr/', include('dbr.urls')),
 )
