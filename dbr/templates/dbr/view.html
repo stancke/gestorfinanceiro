@@ -1,0 +1,393 @@
+{% extends "admin/base_site.html" %}
+{% load adminmedia admin_list i18n dbr_groups %}
+
+{% block title %}{{ report.title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
+<style>
+  /* This is invalid CSS but needed to force vertical scrollbar
+   * It works in every browser but in Opera.
+   * http://css-tricks.com/snippets/css/force-vertical-scrollbar/
+   **/
+  html {
+    overflow-y: scroll;
+  }
+  #toolbar {
+    background: white url({% admin_media_prefix %}img/admin/nav-bg.gif) 0 100% repeat-x;
+    border: 1px solid #CCC;
+    min-height: 24px;
+    margin: 0 0 5px 0;
+    padding: 5px 7px;
+    width: 100%;
+  }
+  #tabs_d {
+    width: 30%;
+  }
+  #tools_d {
+    width: 70%;
+    text-align: right;
+  }
+  ul.tabs {
+    float: left;
+  }
+  ul.tools {
+    float: right;
+  }
+  ul.tabs, ul.tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ul.tabs li, ul.tools li {
+    display: inline-block;
+  }
+  ul.tabs h2, ul.tools h2 {
+    background: white url({% admin_media_prefix %}img/admin/nav-bg.gif) bottom repeat-x;
+    border: 1px solid #BBB;
+    border-color: #DDD #AAA #AAA #DDD;
+    color: black;
+    font-size: 11px;
+    margin: 0 0 0 5px;
+    padding: 3px 5px;
+  }
+  ul.tabs li.selected h2 {
+    background: #7CA0C7 url({% admin_media_prefix %}img/admin/default-bg.gif) bottom repeat-x;
+    border: 2px solid #5B80B2;
+    color: white;
+  }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+{% if report.groupings|length > 0 or report.charts|length > 0 %}
+<script src="{% admin_media_prefix %}js/jquery.min.js"></script>
+<script src="{% admin_media_prefix %}js/jquery.init.js"></script>
+<script>
+  (function ($) {
+     $(document).ready(
+       function () {
+{% if report.charts|length > 0 %}
+         $("#report-charts").hide();
+         $("#report_content").children().not(":first").hide();
+         $("ul.tabs li:first").addClass("selected");
+
+         $("ul.tabs li:not(.tab-right)").click(function () {
+           if (!$(this).hasClass("selected")) {
+             $("ul.tabs li").removeClass("selected");
+             $("#report_content").children().hide();
+             $(this).addClass("selected");
+             var tab_content = $(this).find("a").attr("href");
+             if (tab_content == "#charts") {
+                $("#report-groupings, #report-filters").hide();
+                $("#report-charts").show();
+                $(".report-chart").not(".active").hide();
+             } else {
+                $("#report-charts").hide();
+                $("#report-groupings, #report-filters").show();
+             };
+             $(tab_content).fadeIn();
+           };
+           return false; // Avoid scrolling to id
+         });
+         var chart_togglers = $("#report-charts").find("a")
+         chart_togglers.click(function () {
+           if (!$(this).parent().hasClass("selected")) {
+             chart_togglers.each(function (i, el) {
+               active_chart = $("#chart_" + $(this).text());
+               $(this).parent().removeClass("selected");
+               active_chart.removeClass("active").slideUp();
+             });
+             $(this).parent().addClass("selected");
+             $("#chart_" + $(this).text()).addClass("active").slideDown();
+           };
+           return false;
+         });
+{% endif %}
+{% if report.groupings|length > 0 %}
+         $(".report-table").not(".active").slideUp();
+         var table_togglers = $(".table-toggle")
+         table_togglers.click(function () {
+           table = $("#table_" + $(this).text());
+           if (!$(this).parent().hasClass("selected")) {
+             table_togglers.not($(this)).each(
+               function (i, el) {
+                 active_table = $("#table_" + $(this).text());
+                 $(this).parent().removeClass("selected");
+                 active_table.removeClass("active").slideUp();
+               }
+             );
+             $(this).parent().addClass("selected");
+             $("#table_" + $(this).text()).addClass("active").slideDown();
+           };
+         });
+{% endif %}
+       }
+     );
+  })(django.jQuery);
+</script>
+{% endif %}
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="/admin/">{% trans "Home" %}</a> &rsaquo;
+     <a href="{% url admin:dbr_report_changelist %}">{% trans "Reports" %}</a> &rsaquo;
+     {{ report.title }}
+</div>
+{% endblock %}
+
+{% if messages %}
+<ul class="messagelist">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+<h1>{{ report.title }}</h1>
+<p>{{ report.description}}</p>
+
+
+<div id="content-main">
+  <table id="toolbar">
+    <tr>
+      {% if report.charts|length > 0 %}
+      <td id="tabs_d">
+	<ul class="tabs">
+	  <li>
+	    <a href="#data">
+	      <h2>{% trans "Data" %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#charts">
+	      <h2>{% trans "Charts" %}</h2>
+	    </a>
+	  </li>
+	</ul>
+      </td>
+      {% endif %}
+      <td id="tools_d">
+	<ul class="tools">
+	  <li>
+	    <a href="{% url admin:dbr_report_change report_id %}">
+              <h2>{% trans 'Edit Report' %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="{% url dbr-export 'html' report_slug %}?{{ request.META.QUERY_STRING }}">
+              <h2>{% trans 'Printable view' %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="{% url dbr-export 'txt' report_slug %}?{{ request.META.QUERY_STRING }}">
+              <h2>{% trans 'Export to Plain Text' %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="{% url dbr-export 'csv' report_slug %}?{{ request.META.QUERY_STRING }}">
+              <h2>{% trans 'Export to CSV' %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="{% url dbr-export 'pdf' report_slug %}?{{ request.META.QUERY_STRING }}">
+              <h2>{% trans 'Export to PDF' %}</h2>
+	    </a>
+	  </li>
+	  <li>
+	    <a href="{% url dbr-export 'odt' report_slug %}?{{ request.META.QUERY_STRING }}">
+              <h2>{% trans 'Export to ODT' %}</h2>
+	    </a>
+	  </li>
+	</ul>
+      </td>
+    </tr>
+  </table>
+
+  <div id="changelist" class="module{% if report.filters|length > 0 or report.groupings|length > 0 or report.charts|length > 0 %} filtered{% endif %}">
+      {% block filters %}
+      <div id="changelist-filter">
+	{% if report.groupings|length > 0 %}
+	<div id="report-groupings">
+	  <h2>{% trans 'Group by' %}</h2>
+	  <ul>
+	    <li class="selected"><a href="#" class="table-toggle">{% trans "All" %}</a></li>
+	    {% for group_name in report.groupings %}
+	    <li>
+	      {% dbr_choices_for_grouping group_name as group_choices %}
+	      <strong>{{ group_name|capfirst }}</strong>:
+	      <ul>
+		{% for choice in group_choices %}
+		<li><a href="#" class="table-toggle">{{ choice.1 }}</a></li>
+		{% endfor %}
+	      </ul>
+	    </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	{% endif %}
+	{% if report.filters|length > 0 %}
+	<div id="report-filters">
+	  <h2>{% trans 'Filters' %}</h2>
+	  <ul>
+	    {% for filter in report.filters %}
+	    <li>{{ filter.0|capfirst }} {{ filter.2 }} {{ filter.3 }}</li>
+	    {% endfor %}
+	  </ul>
+	  <h2>{% trans 'Exclusions' %}</h2>
+	  <ul>
+	    {% for excl in report.excludes %}
+	    <li>{{ exclude.0|capfirst }} {{ exclude.2 }} {{ exclude.3 }}</li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	{% endif %}
+	{% if report.charts|length > 0 %}
+	<div id="report-charts">
+	  <h2>{% trans "Charts" %}</h2>
+	  <ul>
+	    {% for chart in report.charts %}
+	    <li class="{% if forloop.first %}selected{% endif%}"><a href="#chart_{{ chart.field }}">{{ chart.field|capfirst }}</a></li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	{% endif %}
+      </div>
+      {% endblock %}
+      <div id="report_content">
+      <div id="data">
+      {% block table %}
+      <div id="tables" class="results">
+	<div id="table_{% trans "All" %}" class="report-table{% if report.groupings|length > 0 %} active{% endif %}">
+	  {% if report.groupings|length > 0 %}<h2>{% trans "All" %}</h2>{% endif %}
+	  <table cellspacing="0">
+	    <thead>
+	      <tr>
+		{% for column in report.columns %}
+		<th width="{{ column.width }}%">{{ column.title|capfirst }}</th>
+		{% endfor %}
+	      </tr>
+	    </thead>
+	    {% for row in report.rows %}
+	    <tr class="{% cycle "row1" "row2" %}">
+	      {% for cell in row %}
+	      {% if cell.type == "object" %}
+	      <td>{{ cell.obj }}</td>
+	      {% else %}
+	      {% if cell.type == "iterable" %}
+	      <td>
+		<ul>
+		  {% for element in cell.obj %}
+		  {% if element.get_absolute_url %}
+		  <li><a href="{{ element.get_absolute_url }}">{{ element }}</a></li>
+		  {% else %}
+		  <li>{{ element }}</li>
+		  {% endif %}
+		  {% endfor %}
+		</ul>
+	      </td>
+	      {% endif %}
+	      {% endif %}
+	      {% endfor %}
+	    </tr>
+	    {% endfor %}
+	    {% if report.has_aggregations %}
+	    <tr id="aggregations_row">
+	      {% for aggr in report.aggregations %}
+	      <td>{% if aggr %}<strong>{{ aggr.0|floatformat:"-2" }}</strong> <small>({{ aggr.1 }})</small>{% endif %}</td>
+	      {% endfor %}
+	    </tr>
+	    {% endif %}
+	  </table>
+	</div>
+	{% for group_name in report.groupings %}
+	{% dbr_choices_for_grouping group_name as group_choices %}
+	{% for choice in group_choices %}
+	{% dbr_rows_for_group_choice choice.1 as group_rows %}
+	{% dbr_aggregations_for_group_choice choice.1 as group_aggregations %}
+	<div id="table_{{ choice.1 }}" class="report-table">
+	  <h2>{{ choice.1 }}</h2>
+	  <table cellspacing="0">
+	    <thead>
+	      <tr>
+		{% for column in report.columns %}
+		<th width="{{ column.width }}%">{{ column.title|capfirst }}</th>
+		{% endfor %}
+	      </tr>
+	    </thead>
+	    {% for row in group_rows %}
+	    <tr class="{% cycle "row1" "row2" %}">
+	      {% for cell in row %}
+	      {% if cell.type == "object" %}
+	      <td>{{ cell.obj }}</td>
+	      {% else %}
+	      {% if cell.type == "iterable" %}
+	      <td>
+		<ul>
+		  {% for element in cell.obj %}
+		  {% if element.get_absolute_url %}
+		  <li><a href="{{ element.get_absolute_url }}">{{ element }}</a></li>
+		  {% else %}
+		  <li>{{ element }}</li>
+		  {% endif %}
+		  {% endfor %}
+		</ul>
+	      </td>
+	      {% endif %}
+	      {% endif %}
+	      {% endfor %}
+	    </tr>
+	    {% endfor %}
+	    {# Aggregations row #}
+	    {% if group_aggregations %}
+	    <tr>
+	      {% for aggr in group_aggregations %}
+	      <td>{% if aggr %}<strong>{{ aggr.0|floatformat:"-2" }}</strong> <small>({{ aggr.1 }})</small>{% endif %}</td>	
+	      {% endfor %}
+	    </tr>
+	    {% endif %}
+	  </table>
+	</div>
+	{% endfor %}
+	{% endfor %}
+      </div>
+      {% endblock %}
+    </div>
+    {% if report.charts|length > 0 %}
+    <div id="charts" class="results">
+      {% for chart in report.charts %}
+      <div id="chart_{{ chart.field|capfirst }}" class="report-chart{% if forloop.first %} active{% endif %}">
+	<h2>{{ chart.field|capfirst }}</h2>
+	<table>
+	  <tr>
+	    <td style="width: {% if chart.description %}75%{% else %}100%{% endif %}">
+	      <img src="{% url dbr-view-chart chart.id %}"
+		   width="100%"/>
+	    </td>
+	    {% if chart.description %}
+	    <td>
+	      <p>
+		<strong>{% trans "Description" %}:</strong>
+	      </p>
+	      <p>
+		{{ chart.description }}
+	      </p>
+	    </td>
+	    {% endif %}
+	  </tr>
+	</table>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  </div>
+</div>
+{% endblock %}
+

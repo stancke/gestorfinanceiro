@@ -1,0 +1,502 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-04 21:28-0430\n"
+"PO-Revision-Date: 2011-06-04 21:31-0430\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:38
+msgid "View"
+msgstr "Ver"
+
+#: admin.py:40
+#, fuzzy
+msgid "View report"
+msgstr "Ver reporte"
+
+#: core.py:47 models.py:50
+msgid "Sum"
+msgstr "Sumatoria"
+
+#: core.py:48 models.py:52
+msgid "Average"
+msgstr "Promedio"
+
+#: core.py:49 models.py:51
+msgid "Count"
+msgstr "Conteo"
+
+#: core.py:50 models.py:53
+msgid "Maximum"
+msgstr "Máximo"
+
+#: core.py:51 models.py:54
+msgid "Minimum"
+msgstr "Mínimo"
+
+#: core.py:52 models.py:55
+msgid "Standard Deviation"
+msgstr "Desviación Estándar"
+
+#: core.py:53 models.py:56
+msgid "Variance"
+msgstr "Varianza"
+
+#: core.py:98 templates/dbr/view.html:336
+msgid "Description"
+msgstr "Descripción"
+
+# Filtros Activos
+#: core.py:106
+msgid "Active Filters"
+msgstr "Filtros Activos"
+
+# Agrupamientos Activos
+#: core.py:161
+msgid "Active Groupings"
+msgstr "Agrupamientos Activos"
+
+#: core.py:176
+#, fuzzy
+msgid "Grouped By"
+msgstr "Agrupado por %s"
+
+#: core.py:224
+msgid "Summary"
+msgstr "Resumen"
+
+#: core.py:258 templates/dbr/view.html:162 templates/dbr/view.html.py:245
+#, fuzzy
+msgid "Charts"
+msgstr "gráficos"
+
+#: models.py:27
+msgid "Vertical Bar Chart"
+msgstr "Gráfico de Barras Verticales"
+
+#: models.py:28
+msgid "Horizontal Bar Chart"
+msgstr "Gráfico de Barras Horizontales"
+
+#: models.py:29
+msgid "Line Chart"
+msgstr "Gráfico de Línea"
+
+#: models.py:34
+msgid "Black"
+msgstr "Negro"
+
+#: models.py:35
+msgid "Silver"
+msgstr "Plateado"
+
+#: models.py:36
+msgid "Gold"
+msgstr "Dorado"
+
+#: models.py:37
+msgid "Light Blue"
+msgstr "Azul claro"
+
+#: models.py:38
+msgid "Blue"
+msgstr "Azul"
+
+#: models.py:39
+msgid "Dark Blue"
+msgstr "Azul oscuro"
+
+#: models.py:40
+msgid "Light Green"
+msgstr "Verde claro"
+
+#: models.py:41
+msgid "Green"
+msgstr "Verde"
+
+#: models.py:42
+msgid "Dark Green"
+msgstr "Verde oscuro"
+
+#: models.py:43
+msgid "Yellow"
+msgstr "Amarillo"
+
+#: models.py:44
+msgid "Red"
+msgstr "Rojo"
+
+#: models.py:45
+msgid "Dark Red"
+msgstr "Rojo oscuro"
+
+#: models.py:46
+msgid "Orange"
+msgstr "Anaranjado"
+
+#: models.py:60
+msgid "Equal"
+msgstr "Igual"
+
+#: models.py:61
+msgid "Contains"
+msgstr "Contiene"
+
+#: models.py:62
+msgid "Exists in list (comma separated)"
+msgstr "Existe en la lista (separada por coma)"
+
+#: models.py:63
+msgid "Greater than"
+msgstr "Mayor que"
+
+#: models.py:64
+msgid "Greater or equal than"
+msgstr "Mayor o Igual que"
+
+#: models.py:65
+msgid "Less than"
+msgstr "Menor que"
+
+#: models.py:66
+msgid "Less or equal than"
+msgstr "Menor o Igual que"
+
+#: models.py:67
+msgid "Starts with"
+msgstr "Comienza con"
+
+#: models.py:68
+msgid "Ends with"
+msgstr "Termina con"
+
+#: models.py:69
+msgid "Between (comma separated bounds)"
+msgstr "Entre (límites separados por coma)"
+
+#: models.py:70
+msgid "Year (only date fields)"
+msgstr "Año (solo campos de fecha)"
+
+#: models.py:71
+msgid "Month (only date fields)"
+msgstr "Mes (solo campos de fecha)"
+
+#: models.py:72
+msgid "Day (only date fields)"
+msgstr "Día (solo campos de fecha)"
+
+#: models.py:73
+msgid "Week day (only date fields)"
+msgstr "Día de la semana (solo campos de fecha)"
+
+#: models.py:74
+msgid "Regular expression"
+msgstr "Expresión Regular"
+
+#: models.py:79
+msgid "contains"
+msgstr "contiene"
+
+#: models.py:80
+msgid "in"
+msgstr "en"
+
+#: models.py:85
+msgid "start"
+msgstr "comienza"
+
+#: models.py:86
+msgid "end"
+msgstr "termina"
+
+#: models.py:87
+msgid "between"
+msgstr "entre"
+
+#: models.py:88
+msgid "year ="
+msgstr "año ="
+
+#: models.py:89
+msgid "month ="
+msgstr "mes ="
+
+#: models.py:90
+msgid "day ="
+msgstr "día ="
+
+#: models.py:91
+msgid "week day ="
+msgstr "día de semana ="
+
+#: models.py:92
+msgid "matches"
+msgstr "coincide con"
+
+#: models.py:116
+msgid "field"
+msgstr "campo"
+
+#: models.py:128
+msgid "title"
+msgstr "título"
+
+#: models.py:129 models.py:367
+msgid "description"
+msgstr "descripción"
+
+#: models.py:130
+msgid "slug"
+msgstr "slug"
+
+#: models.py:131
+msgid "is public?"
+msgstr "es público?"
+
+#: models.py:135
+msgid "model"
+msgstr "modelo"
+
+#: models.py:138
+msgid "Select the database model from which the data will be extracted"
+msgstr ""
+"Escoja el modelo de la base de datos desde el cual se tomarán los datos"
+
+#: models.py:143
+msgid "report"
+msgstr "reporte"
+
+#: models.py:144
+msgid "reports"
+msgstr "reportes"
+
+#: models.py:170 models.py:194 models.py:353
+msgid "label"
+msgstr "etiqueta"
+
+#: models.py:173
+msgid "Alternative label for the column"
+msgstr "Título alternativo para la columna"
+
+#: models.py:176 models.py:215
+msgid "width"
+msgstr "ancho"
+
+#: models.py:178
+msgid "The width of the column in percentage"
+msgstr "El ancho de la columna en porcentaje"
+
+#: models.py:185 models.py:290
+msgid "column"
+msgstr "columna"
+
+#: models.py:186
+msgid "columns"
+msgstr "columnas"
+
+#: models.py:196
+msgid "Custom column's title and identifier."
+msgstr "Título e identificador de la columna especial"
+
+#: models.py:199
+msgid "identifier"
+msgstr "identificador"
+
+#: models.py:202
+msgid "Identifier for the custom column in filters and other evaluations"
+msgstr "Identificador de la columna especial para los filtros y otras evaluaciones"
+
+#: models.py:206 models.py:301
+msgid "value"
+msgstr "valor"
+
+#: models.py:209
+msgid ""
+"Value for the custom column. Available variables are the other column "
+"values. It can perform basic mathematics operations."
+msgstr ""
+"Valor para la columna especial. Los valores disponibles son aquellos de \n"
+"las demás columnas. Se permite el uso de funciones matemáticas básicas"
+
+#: models.py:217
+msgid "Custom column percentage width in the report's view."
+msgstr "Ancho de la columna especial en la vista del reporte"
+
+#: models.py:220
+#, fuzzy
+msgid "aggregation"
+msgstr "agregación"
+
+#: models.py:224
+msgid "Optional aggregation for the custom column"
+msgstr "Agregación opcional para la columna especial"
+
+#: models.py:231
+msgid "custom column"
+msgstr "columna especial"
+
+#: models.py:232
+msgid "custom columns"
+msgstr "columnas especiales"
+
+#: models.py:242 models.py:262
+msgid "function"
+msgstr "función"
+
+#: models.py:251
+msgid "annotate"
+msgstr "anotación"
+
+#: models.py:252
+msgid "annotates"
+msgstr "anotaciones"
+
+#: models.py:271
+msgid "aggregate"
+msgstr "agregación"
+
+#: models.py:272
+msgid "aggregates"
+msgstr "agregaciones"
+
+#: models.py:292
+msgid "operator"
+msgstr "operador"
+
+#: models.py:305
+msgid "If set, will exclude all data matching the filter."
+msgstr "Si está activado, los datos coincidentes con el filtro se excluirán del reporte"
+
+#: models.py:316
+msgid "filter"
+msgstr "filtro"
+
+#: models.py:317
+msgid "filters"
+msgstr "filtros"
+
+#: models.py:331
+msgid "group by"
+msgstr "agrupación"
+
+#: models.py:332
+msgid "groupings"
+msgstr "agrupaciones"
+
+#: models.py:340
+msgid "chart type"
+msgstr "tipo de gráfico"
+
+#: models.py:344
+#, fuzzy
+msgid "Column to display in the chart"
+msgstr "Atributo a mostrar en el gráfico"
+
+#: models.py:346
+msgid "color"
+msgstr "color"
+
+#: models.py:350
+msgid "Color of the bars or lines"
+msgstr "Color de las barras o líneas"
+
+#: models.py:355
+msgid "Axis label. Defaults to the report's model name"
+msgstr "Etiqueta del eje. Muestra el nombre del modelo por defecto."
+
+#: models.py:359
+msgid "element tag"
+msgstr "etiqueta del elemento"
+
+#: models.py:361
+msgid ""
+"Model field to use as identifier for every element in the chart. Defaults to "
+"the object id."
+msgstr ""
+"Campo del modelo que se usará como identificador para cada elemento en el gráfico.\n"
+"Por defecto muestra el ID del objeto."
+
+#: models.py:382
+msgid "chart"
+msgstr "gráfico"
+
+#: models.py:383
+msgid "charts"
+msgstr "gráficos"
+
+#: templates/dbr/view.html:4
+msgid "Django site admin"
+msgstr "Sitio administrativo de Django"
+
+#: templates/dbr/view.html:136
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/dbr/view.html:137
+msgid "Reports"
+msgstr "Reportes"
+
+#: templates/dbr/view.html:157
+msgid "Data"
+msgstr "Datos"
+
+#: templates/dbr/view.html:172
+msgid "Edit Report"
+msgstr "Editar Reporte"
+
+#: templates/dbr/view.html:177
+msgid "Printable view"
+msgstr "Vista de Impresión"
+
+#: templates/dbr/view.html:182
+msgid "Export to Plain Text"
+msgstr "Exportar a Texto Plano"
+
+#: templates/dbr/view.html:187
+msgid "Export to CSV"
+msgstr "Exportar a CSV"
+
+#: templates/dbr/view.html:192
+msgid "Export to PDF"
+msgstr "Exportar a PDF"
+
+#: templates/dbr/view.html:197
+msgid "Export to ODT"
+msgstr "Exportar a ODT"
+
+#: templates/dbr/view.html:210
+msgid "Group by"
+msgstr "Grupo"
+
+#: templates/dbr/view.html:212 templates/dbr/view.html.py:259
+#: templates/dbr/view.html:260
+msgid "All"
+msgstr "Todo"
+
+#: templates/dbr/view.html:229
+#, fuzzy
+msgid "Filters"
+msgstr "Filtro"
+
+#: templates/dbr/view.html:235
+msgid "Exclusions"
+msgstr "Exclusiones"
+
+#~ msgid "Pie Chart"
+#~ msgstr "Gráfico de Torta"
+
+#~ msgid "dimension"
+#~ msgstr "dimensión"
